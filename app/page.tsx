@@ -20,6 +20,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Code, Palette, Users, Smartphone } from "lucide-react";
+import BtnWaitList from "@/components/BtnWaitList";
 
 const features = [
   {
@@ -230,17 +231,7 @@ export default function Home() {
                         ))}
                       </ul>
 
-                      <Button
-                        className="w-full py-6 text-lg font-semibold cursor-pointer"
-                        //   className={`w-full py-6 text-lg font-semibold rounded-full transition-all duration-300 ${
-                        //     plan.popular
-                        //       ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-                        //       : ""
-                        //   }`}
-                        variant={plan.popular ? "default" : "outline"}
-                      >
-                        {plan.popular ? "Join Waitlist" : "Get Started"}
-                      </Button>
+                      <BtnWaitList popular={plan.popular}/>
                     </CardContent>
                   </Card>
                 ))}
