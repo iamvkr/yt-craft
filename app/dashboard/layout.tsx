@@ -1,4 +1,5 @@
 "use client";
+import { account } from '@/lib/appwrite';
 import { getUser } from '@/lib/appwrite/auth';
 import { useMyStore } from '@/zustand/store';
 import { useRouter } from 'next/navigation';
@@ -13,6 +14,9 @@ const DashboardLayout = ({children}:Readonly<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       (async () => {
+        const ss = await account.getSession({sessionId:"current"});
+        console.log("session:",{ss});
+        
         // check login status:
         if (user === null) {
           // check login status

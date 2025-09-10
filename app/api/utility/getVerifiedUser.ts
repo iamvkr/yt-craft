@@ -29,7 +29,7 @@ export const getVerifiedUser = async (
     };
   }
 
-  client.setSession(token);
+  client.setJWT(token);
 
   try {
     const user = await account.get(); // If this works, the token is valid

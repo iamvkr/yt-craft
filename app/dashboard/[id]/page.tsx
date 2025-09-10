@@ -2,7 +2,6 @@
 import SidebarEdit from "@/components/SidebarEdit/SidebarEdit";
 import { Button } from "@/components/ui/button";
 import type { ChannelDataType, ConfigurationType } from "@/types";
-import { getToken } from "@/helpers";
 import { defaultConfiguration } from "@/defaultConfigs";
 import { useMyStore } from "@/zustand/store";
 import {
@@ -26,6 +25,7 @@ import { DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import BouncyLoader from "@/components/BouncyLoader";
+import { getJwt } from "@/helpers/jwtManager";
 
 const ProjectView = () => {
   const {
@@ -66,7 +66,7 @@ const ProjectView = () => {
             cData = JSON.parse(cache);
           } else {
             setIsLoading(true);
-            const token = getToken();
+            const token = await getJwt();
             if (!token) {
               toast.error("Something went Wrong!!");
               setIsLoading(false);
@@ -130,7 +130,7 @@ const ProjectView = () => {
       console.log({ project });
 
       setIsPublishing(true);
-      const token = getToken();
+      const token = await getJwt();
       if (!token) {
         toast.error("Something went Wrong!!");
         setIsPublishing(false);
@@ -166,7 +166,9 @@ const ProjectView = () => {
           })
         );
       } else {
-        toast.error(res.message);
+        setcurrError(res.message);
+        setIsPublishing(false);
+        return false;
       }
       setIsPublishing(false);
       setpublishDialogOpen(false);
@@ -187,7 +189,7 @@ const ProjectView = () => {
       console.log({ project });
 
       setIsUpdating(true);
-      const token = getToken();
+      const token = await getJwt();
       if (!token) {
         toast.error("Something went Wrong!!");
         setIsUpdating(false);

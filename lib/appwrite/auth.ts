@@ -55,11 +55,23 @@ export const getUser = async () => {
     };
   }
 };
+export const createMyJWT = async () => {
+  try {
+    const response = await account.createJWT();
+    if (response.jwt) {
+        return response.jwt 
+    }
+    return false
+  } catch (error) {
+    return false
+  }
+};
 
 /** LOGOUT */
 export const logoutUser = async () => {
   try {
     await account.deleteSession({ sessionId: "current" });
+    localStorage.removeItem("JWT");
     return { success: true, message: "logout user" };
   } catch (error) {
     return {

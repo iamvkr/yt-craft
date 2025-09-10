@@ -11,8 +11,9 @@ import {
 import { Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { generateRandomCode, getToken } from "@/helpers";
+import { generateRandomCode } from "@/helpers";
 import { useMyStore } from "@/zustand/store";
+import { getJwt } from "@/helpers/jwtManager";
 
 const DialogVerify = ({
   isOpen,
@@ -34,7 +35,7 @@ const DialogVerify = ({
   const verificationCode = generateRandomCode(10);
   const verifyProject = async () => {
     setloading(true);
-    const token = getToken();
+    const token = await getJwt();
     if (token) {
       const res = await fetch(`/api/v1/verify`, {
         method: "POST",
@@ -131,6 +132,9 @@ const DialogVerify = ({
               </ol>
               <div className="mt-1 mb-4 text-sm">
                 💡 Make sure the video is public
+              </div>
+              <div className="mt-1 mb-4 text-xs underline">
+                Verify your channel till 30 oct 2025.
               </div>
               <div className="mb-2 font-semibold">Step 3: Confirm</div>
               <div className="text-sm">

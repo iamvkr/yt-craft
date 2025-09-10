@@ -12,8 +12,8 @@ import {
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
-import { getToken } from "@/helpers";
 import { useMyStore } from "@/zustand/store";
+import { getJwt } from "@/helpers/jwtManager";
 
 const DialogDelete = ({
   isOpen,
@@ -27,7 +27,7 @@ const DialogDelete = ({
   const { setUserProjects, userProjects } = useMyStore();
   const [loading, setloading] = useState(false);
   const deleteProject = async () => {
-    const token = getToken();
+    const token = await getJwt();
     if (!token) {
       toast.error("something went wrong!!");
     }

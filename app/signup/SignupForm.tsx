@@ -1,7 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getUser, loginUser, signupUser } from "@/lib/appwrite/auth";
+import {
+  createMyJWT,
+  getUser,
+  loginUser,
+  signupUser,
+} from "@/lib/appwrite/auth";
 import { useMyStore } from "@/zustand/store";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -14,6 +19,7 @@ import {
   FieldError,
 } from "react-hook-form";
 import { toast } from "sonner";
+import GoogleLogin from "./google/GoogleLogin";
 
 // Defines the shape of our form data
 interface IFormInput extends FieldValues {
@@ -73,11 +79,7 @@ interface ButtonProps {
 }
 
 const FormButton: FC<ButtonProps> = ({ children, ...rest }) => (
-  <Button
-    {...rest}
-    className="w-full dark"
-    variant={"default"}
-  >
+  <Button {...rest} className="w-full dark" variant={"default"}>
     {children}
   </Button>
 );
@@ -92,7 +94,7 @@ const SignupForm: FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, },
+    formState: { errors, isValid },
     watch,
   } = useForm<IFormInput>({
     mode: "onChange", // Validate on input change for immediate feedback
@@ -110,8 +112,15 @@ const SignupForm: FC = () => {
       if (res.data) {
         setUser(res.data);
       }
-      //  redirect to dashboard
-      router.replace("/dashboard");
+      /** ! create a jwt and save to localstorage */
+      const jwt = await createMyJWT();
+      if (jwt) {
+        localStorage.setItem("JWT", jwt);
+        //  redirect to dashboard
+        router.replace("/dashboard");
+      } else {
+        toast("Failed to create token! Try Again");
+      }
     }
     setsubmitting(false);
   }
@@ -263,9 +272,11 @@ const SignupForm: FC = () => {
 
             {/* Submit Button */}
             <FormButton type="submit" disabled={!isValid || submitting}>
-                {submitting && <Loader2 className="animate-spin"/>}
+              {submitting && <Loader2 className="animate-spin" />}
               {isLoginMode ? "Login" : "Sign Up"}
             </FormButton>
+
+            <GoogleLogin />
           </form>
 
           {/* Toggle between Login and Sign Up */}

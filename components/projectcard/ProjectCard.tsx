@@ -1,10 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import Image from "next/image";
-import { Copy, MoreVertical } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 import {
   DropdownMenu,

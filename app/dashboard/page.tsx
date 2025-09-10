@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { getToken } from "@/helpers";
+import { getJwt } from "@/helpers/jwtManager";
 
 const Dashboard = () => {
   const { user, userProjects, setUserProjects } = useMyStore();
@@ -78,7 +78,7 @@ const Dashboard = () => {
       return false;
     }
     // get token:
-    const token = getToken();
+    const token = await getJwt();
     if (!token) {
       setcurrErrorMsg("Something went Wrong!!");
       return false;
