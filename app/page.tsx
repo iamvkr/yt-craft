@@ -141,7 +141,7 @@ export default function Home() {
           </div>
 
           {/* FEATURES SECTION */}
-          <div className="flex flex-col gap-4 flex-wrap items-center mb-6">
+          <div id="featuers" className="flex flex-col gap-4 flex-wrap items-center mb-6">
             <h2 className="text-2xl md:text-4xl font-bold">
               Why Choose <span className="">YT Craft</span>
             </h2>
@@ -175,7 +175,7 @@ export default function Home() {
           </div>
 
           {/* PRICING SECTION */}
-          <section className="w-full">
+          <section id="pricing" className="w-full">
             <div className="py-10" id="pricing">
               <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:dark:text-gray-200  mb-6">
@@ -240,7 +240,7 @@ export default function Home() {
           </section>
 
           {/* TESTIMONIALS */}
-          <section className="w-full">
+          <section id="testimonials" className="w-full">
             <div className="flex flex-col gap-4 flex-wrap items-center mb-6">
               <h2 className="text-2xl md:text-4xl font-bold">
                 What Creators Says

@@ -26,20 +26,20 @@ const Navbar = () => {
     !pathname.includes("/c/") && (
       <div className="h-16 border dark:text-white text-black font-sans">
         <div className="navbar h-full xl:max-w-[80%] mx-auto flex justify-between items-center px-4 xl:px-0">
-          <div className="brand text-xl xl:text-3xl font-bold">Yt Craft</div>
+          <div className="brand text-xl xl:text-3xl font-bold"><Link href={"/"}>Yt Craft</Link></div>
 
           {!user ? (
             <ul className="hidden xl:flex items-center gap-x-4 font-semibold">
               <li><a href="#">Home</a></li>
-              <li><a href="#">Featuers</a></li>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">Testimonials</a></li>
+              <li><a href="#featuers">Featuers</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#testimonials">Testimonials</a></li>
             </ul>
           ) : (
             <ul className="hidden xl:flex items-center gap-x-4 font-semibold">
               <li><a href="#">Home</a></li>
               <li><Link href={"/dashboard"}>Dashboard</Link></li>
-              <li><a href="#">My Account</a></li>
+              {/* <li><a href="#">My Account</a></li> */}
             </ul>
           )}
 
