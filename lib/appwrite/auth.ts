@@ -63,6 +63,7 @@ export const createMyJWT = async () => {
     }
     return false
   } catch (error) {
+    console.log(error);
     return false
   }
 };

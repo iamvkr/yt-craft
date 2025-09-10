@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 
-const page = () => {
+const FailPage = () => {
     const [Error, setError] = useState({
         message:"",
         type:"",
@@ -37,4 +37,4 @@ const page = () => {
   )
 }
 
-export default page
+export default FailPage
