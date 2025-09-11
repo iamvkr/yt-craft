@@ -10,7 +10,7 @@ const GoogleLogin = () => {
   async function loginWithGoogle(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    const BaseUrl = process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "http://ytcraft.appwrite.network"
+    const BaseUrl = process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://ytcraft.appwrite.network"
     try {
       account.createOAuth2Session({
         provider: OAuthProvider.Google,
