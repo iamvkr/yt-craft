@@ -135,7 +135,7 @@ export default function Home() {
               </Link>
 
               <Button variant={"outline"} className="py-6">
-                <Play /> Watch DEMO
+                <Play /><a href="/c/@youtube" target="_blank"> Watch DEMO</a>
               </Button>
             </div>
           </div>

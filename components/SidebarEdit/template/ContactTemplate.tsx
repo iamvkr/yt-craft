@@ -9,7 +9,6 @@ const ContactTemplate = () => {
     currentConfig,
     setCurrentConfig,
     currentChannelData,
-    setCurrentChannelData,
   } = useMyStore();
 
   const [formdata, setformdata] = useState({
@@ -50,20 +49,6 @@ const ContactTemplate = () => {
           />
         </div>
         <div className="flex gap-2 pe-1">
-          <Label htmlFor="contact-email" className="w-1/2">
-            Email
-          </Label>
-          <Input
-            id="contact-email"
-            type="text"
-            value={formdata.email}
-            onChange={(e) => {
-              setformdata({ ...formdata, email: e.target.value });
-            }}
-            className="w-1/2"
-          />
-        </div>
-        <div className="flex gap-2 pe-1">
           <Label htmlFor="contact-title" className="w-1/2">
             Title
           </Label>
@@ -73,6 +58,20 @@ const ContactTemplate = () => {
             value={formdata.title}
             onChange={(e) => {
               setformdata({ ...formdata, title: e.target.value });
+            }}
+            className="w-1/2"
+          />
+        </div>
+        <div className="flex gap-2 pe-1">
+          <Label htmlFor="contact-email" className="w-1/2">
+            Email/Contact
+          </Label>
+          <Input
+            id="contact-email"
+            type="text"
+            value={formdata.email}
+            onChange={(e) => {
+              setformdata({ ...formdata, email: e.target.value });
             }}
             className="w-1/2"
           />

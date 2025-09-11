@@ -9,7 +9,6 @@ const HeroTemplate = () => {
     currentConfig,
     setCurrentConfig,
     currentChannelData,
-    setCurrentChannelData,
   } = useMyStore();
 
   const [formdata, setformdata] = useState({

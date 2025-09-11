@@ -14,39 +14,69 @@ import AboutTemplate from "./template/AboutTemplate";
 import ContactTemplate from "./template/ContactTemplate";
 import SocialsTemplate from "./template/SocialsTemplate";
 import { Button } from "../ui/button";
-import { Stars } from "lucide-react";
+import { Loader2, Stars } from "lucide-react";
 import { useMyStore } from "@/zustand/store";
 import HeroTemplate from "./template/HeroTemplate";
+import { getJwt } from "@/helpers/jwtManager";
+import { toast } from "sonner";
 
-const SidebarEdit = (
-) => {
-  const {
-    currentConfig,
-    currentChannelData,
-    setCurrentChannelData,
-  } = useMyStore();
+const SidebarEdit = () => {
+  const { currentConfig, currentChannelData, setCurrentChannelData } =
+    useMyStore();
+
+  const [errMsg, seterrMsg] = useState("");
+  const [loadingprompt, setloadingprompt] = useState(false);
 
   const [formdata, setformdata] = useState({
-    channelName:currentChannelData?.metadata.title,
-    channelDesc:currentChannelData?.metadata.description,
-  })
+    channelName: currentChannelData?.metadata.title,
+    channelDesc: currentChannelData?.metadata.description,
+  });
+
+  const generateWithAi = async () => {
+    if (!formdata.channelDesc?.trim()) {
+      seterrMsg("values cannot be empty");
+      return false;
+    }
+    seterrMsg("");
+    setloadingprompt(true);
+    // ai fetch
+    const token = await getJwt();
+    if (token) {
+      const res = await fetch(`/api/v1/prompt`, {
+        method: "POST",
+        body: JSON.stringify({
+          prompt: formdata.channelDesc,
+          type: "hero",
+        }),
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+      const result = await res.json();
+      if (!result.success) {
+        toast.error(result.message);
+        setloadingprompt(false);
+        return false;
+      }
+      setformdata({ ...formdata, channelDesc: result.data });
+    }
+    setloadingprompt(false);
+  };
 
   useEffect(() => {
     const tm = setTimeout(() => {
-        if (currentConfig && currentChannelData) {
-        const tmp = {...currentChannelData}; // shallow copy
+      if (currentConfig && currentChannelData) {
+        const tmp = { ...currentChannelData }; // shallow copy
         tmp.metadata.title = formdata.channelName!; //update name
         tmp.metadata.description = formdata.channelDesc!; //update name
-        setCurrentChannelData(tmp);// update store
-    }
+        setCurrentChannelData(tmp); // update store
+      }
     }, 800);
 
-    return ()=>{
-        clearTimeout(tm)
-    }
-    
-  }, [formdata])
-
+    return () => {
+      clearTimeout(tm);
+    };
+  }, [formdata]);
 
   return (
     currentConfig &&
@@ -66,18 +96,28 @@ const SidebarEdit = (
                 id="channelName"
                 type="text"
                 value={formdata.channelName}
-                onChange={(e)=>{setformdata({...formdata,channelName:e.target.value})}}
+                onChange={(e) => {
+                  setformdata({ ...formdata, channelName: e.target.value });
+                }}
               />
               <Label htmlFor="desc">Description</Label>
               <Textarea
                 id="desc"
                 value={formdata.channelDesc}
-                onChange={(e)=>{setformdata({...formdata,channelDesc:e.target.value})}}
+                onChange={(e) => {
+                  setformdata({ ...formdata, channelDesc: e.target.value });
+                }}
                 rows={2}
                 className="resize-none"
               />
-              <Button disabled={true}>
-                <Stars /> Generate with AI (soon)
+              <p className="text-xs text-destructive mt-1">{errMsg}</p>
+              <Button onClick={generateWithAi} disabled={loadingprompt}>
+                {loadingprompt ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Stars />
+                )}
+                Enhance with AI
               </Button>
               {/* <h5>Colors</h5>
             <div className="mb-6">
@@ -106,18 +146,17 @@ const SidebarEdit = (
 
         <h5>Sections</h5>
         <Accordion type="single" collapsible className="w-full">
-
           <AccordionItem value="section-hero">
             <AccordionTrigger>Hero</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <HeroTemplate/>
+              <HeroTemplate />
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="section-videos">
             <AccordionTrigger>Videos</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <VideoTemplate/>
+              <VideoTemplate />
             </AccordionContent>
           </AccordionItem>
 
@@ -138,10 +177,9 @@ const SidebarEdit = (
           <AccordionItem value="section-contact">
             <AccordionTrigger>Contact</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <ContactTemplate/>
+              <ContactTemplate />
             </AccordionContent>
           </AccordionItem>
-
         </Accordion>
       </div>
     )
