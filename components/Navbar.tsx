@@ -39,7 +39,7 @@ const Navbar = () => {
             <ul className="hidden xl:flex items-center gap-x-4 font-semibold">
               <li><a href="#">Home</a></li>
               <li><Link href={"/dashboard"}>Dashboard</Link></li>
-              {/* <li><a href="#">My Account</a></li> */}
+              <li><Link href={"/manage"}>My Account</Link></li>
             </ul>
           )}
 
@@ -77,7 +77,9 @@ const Navbar = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => {}}>
+                    <DropdownMenuItem onClick={() => {
+                        router.push("/manage")
+                    }}>
                       Manage
                     </DropdownMenuItem>
                     <DropdownMenuItem

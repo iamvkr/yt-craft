@@ -210,7 +210,8 @@ const Dashboard = () => {
                   }`}
                 >
                   <span className="text-white">Mordern Minimilist</span>
-                  <Button variant={"outline"} size={"sm"}>
+                  <Button variant={"outline"} size={"sm"}
+                  onClick={()=>{window.open("https://ytcraft.appwrite.network/c/@youtube")}}>
                     <Eye />
                     Preview
                   </Button>

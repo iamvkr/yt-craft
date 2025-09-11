@@ -1,6 +1,6 @@
 "use client";
-import { createMyJWT, getUser } from "@/lib/appwrite/auth";
-import { useMyStore } from "@/zustand/store";
+import { createMyJWT } from "@/lib/appwrite/auth";
+// import { useMyStore } from "@/zustand/store";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -9,16 +9,16 @@ const SuccessPage = () => {
     "Login success.. Please wait Redirecting..."
   );
   const router = useRouter();
-  const { setUser } = useMyStore();
+//   const { setUser } = useMyStore();
   useEffect(() => {
     (async () => {
-      const res = await getUser();
-      if (res.data) {
-        setUser(res.data);
-      } else {
-        setMessage("Something went Wrong! Try Again");
-        return false;
-      }
+    //   const res = await getUser();
+    //   if (res.data) {
+    //     setUser(res.data);
+    //   } else {
+    //     setMessage("Something went Wrong! Try Again");
+    //     return false;
+    //   }
       /** ! create a jwt and save to localstorage */
       const jwt = await createMyJWT();
       if (jwt) {

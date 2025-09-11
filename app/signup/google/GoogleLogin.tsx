@@ -10,11 +10,12 @@ const GoogleLogin = () => {
   async function loginWithGoogle(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
+    const BaseUrl = process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "http://ytcraft.appwrite.network"
     try {
       account.createOAuth2Session({
         provider: OAuthProvider.Google,
-        success: window.location.origin + "/signup/google/success",
-        failure: window.location.origin + "/signup/google/fail",
+        success: BaseUrl + "/signup/google/success",
+        failure: BaseUrl+ "/signup/google/fail",
       });
     } catch (error) {
       console.error("Failed to login with Google:", error);
