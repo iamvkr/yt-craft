@@ -15,8 +15,6 @@ export async function GET(request: NextRequest) {
       throw new Error("invalid params");
     }
 
-    console.log({ channelId });
-
     // authorization
     const result = await getVerifiedUser(request);
     if (!result || !result.data) {
@@ -47,8 +45,8 @@ export async function GET(request: NextRequest) {
         ?.metadata as YTNodes.ContentMetadataView
     ).metadata_rows[1].metadata_parts;
     if (metadata_parts) {
-      subs = metadata_parts[0].text? metadata_parts[0].text.text! : "";
-      vidCounts = metadata_parts[1].text? metadata_parts[1].text.text! : "";
+      subs = metadata_parts[0]?.text? metadata_parts[0].text.text! : "";
+      vidCounts = metadata_parts[1]?.text? metadata_parts[1].text.text! : "0";
     }
     /** get metadata */
     const metadata = {

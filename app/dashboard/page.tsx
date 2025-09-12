@@ -103,7 +103,6 @@ const Dashboard = () => {
       return false;
     }
     toast.success(result.message);
-    console.log(result);
     // need to update the projects list in store:
     setUserProjects([
       ...userProjects,

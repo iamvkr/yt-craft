@@ -40,7 +40,6 @@ const ProjectView = () => {
   const project = useMemo(() => {
     return userProjects.find((p) => p.id === projectId);
   }, [projectId]);
-  //   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -62,7 +61,7 @@ const ProjectView = () => {
           let cData = {} as ChannelDataType;
           const cache = sessionStorage.getItem("cData");
           if (cache) {
-            console.log("using cacahed cData ");
+            // console.log("using cacahed cData ");
             cData = JSON.parse(cache);
           } else {
             setIsLoading(true);
@@ -94,12 +93,12 @@ const ProjectView = () => {
           }
           /** 2. set data */
           if (!project.configs) {
-            console.log("using default config");
+            // console.log("using default config");
             // project config is empty: use from defaultConfigs.ts
             setCurrentConfig(defaultConfiguration);
             setCurrentChannelData(cData);
           } else {
-            console.log("using config from DB");
+            // console.log("using config from DB");
             const savedConfigs = JSON.parse(project.configs);
             setCurrentConfig(savedConfigs);
             // channel title and description might be custom in configs, hence should be updated
@@ -125,9 +124,6 @@ const ProjectView = () => {
         title: currentChannelData!.metadata.title,
         description: currentChannelData!.metadata.description,
       };
-      console.log({ finalConfig });
-      //   const project = userProjects.find((p) => p.id === projectId);
-      console.log({ project });
 
       setIsPublishing(true);
       const token = await getJwt();
@@ -184,9 +180,6 @@ const ProjectView = () => {
         title: currentChannelData!.metadata.title,
         description: currentChannelData!.metadata.description,
       };
-      console.log({ finalConfig });
-      // const project = userProjects.find((p) => p.id === projectId);
-      console.log({ project });
 
       setIsUpdating(true);
       const token = await getJwt();
