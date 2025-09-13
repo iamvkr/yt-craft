@@ -4,11 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { ChannelDataType, ConfigurationType } from "@/types";
 import { defaultConfiguration } from "@/defaultConfigs";
 import { useMyStore } from "@/zustand/store";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Loader2,
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -26,6 +22,16 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import BouncyLoader from "@/components/BouncyLoader";
 import { getJwt } from "@/helpers/jwtManager";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
 const ProjectView = () => {
   const {
@@ -45,8 +51,6 @@ const ProjectView = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [publishDialogOpen, setpublishDialogOpen] = useState(false);
   const [userChHandle, setuserChHandle] = useState("");
-
-  const [isSidebarOpen, setisSidebarOpen] = useState(true);
 
   const [currError, setcurrError] = useState("");
 
@@ -224,7 +228,7 @@ const ProjectView = () => {
 
   return (
     <div className="flex w-full  mx-auto h-[calc(100vh_-_4rem)] overflow-y-auto px-4">
-      <div className="flex flex-col gap-y-4 w-full py-4 h-full pb-10">
+      <div className="flex flex-col gap-y-4 w-full h-full pb-10">
         <div
           className={`${
             currentConfig && currentChannelData ? "h-full" : "min-h-80"
@@ -233,73 +237,65 @@ const ProjectView = () => {
           {/* main section */}
           {currentConfig && currentChannelData ? (
             <div className="w-full h-full">
-              <div className="h-10">
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2 cursor-pointer">
-                    {isSidebarOpen ? (
-                      <ChevronLeft
-                        onClick={() => {
-                          setisSidebarOpen(!isSidebarOpen);
-                        }}
-                      />
-                    ) : (
-                      <ChevronRight
-                        onClick={() => {
-                          setisSidebarOpen(!isSidebarOpen);
-                        }}
-                      />
-                    )}
-                    <h5 className="text-xl">Site Settings</h5>
-                  </div>
-                  <div className="flex gap-2">
-                    {!project?.chHandle ? (
-                      <Button
-                        size={"sm"}
-                        onClick={() => {
-                          setpublishDialogOpen(true);
-                        }}
-                      >
-                        Publish
-                      </Button>
-                    ) : (
-                      <Button
-                        size={"sm"}
-                        onClick={handleUpdateSite}
-                        disabled={isUpdating}
-                      >
-                        {isUpdating && (
-                          <Loader2 className="size-4 animate-spin" />
-                        )}
-                        Update
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div
-                className={`grid h-[95%] w-full ${
-                  isSidebarOpen ? "grid-cols-[20%_80%]" : "grid-cols-1"
-                }`}
-              >
-                {isSidebarOpen && (
-                  <div className="w-full h-full overflow-y-auto">
-                    <SidebarEdit />
-                  </div>
-                )}
+              <div className={`bg-green-200_`}>
+                <SidebarProvider>
+                  {/* SIDEBAR COMPONENT START */}
+                  <Sidebar className="top-18 h-[calc(100vh_-_4.8rem)]">
+                    <SidebarHeader />
+                    <SidebarContent>
+                      <SidebarGroup>
+                        <SidebarGroupLabel>Sites Options</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                          <SidebarEdit />
+                        </SidebarGroupContent>
+                      </SidebarGroup>
+                    </SidebarContent>
+                  </Sidebar>
+                  {/* SIDEBAR COMPONENT END */}
 
-                <div className="w-full h-full overflow-y-auto ps-2">
-                  <PreviewComponent
-                  // configuration={currentConfig}
-                  // channelData={currentChannelData}
-                  />
-                </div>
+                  <main className="w-full bg-red-200_">
+                    <div className="flex justify-between items-center my-2">
+                      <SidebarTrigger />
+                      <div>
+                        {!project?.chHandle ? (
+                          <Button
+                            size={"sm"}
+                            onClick={() => {
+                              setpublishDialogOpen(true);
+                            }}
+                          >
+                            Publish
+                          </Button>
+                        ) : (
+                          <Button
+                            size={"sm"}
+                            onClick={handleUpdateSite}
+                            disabled={isUpdating}
+                          >
+                            {isUpdating && (
+                              <Loader2 className="size-4 animate-spin" />
+                            )}
+                            Update
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-full h-full overflow-y-auto ps-2">
+                      <PreviewComponent />
+                    </div>
+                  </main>
+                </SidebarProvider>
+
+                {/* <div className="w-full h-full overflow-y-auto ps-2">
+                  <PreviewComponent />
+                </div> */}
               </div>
             </div>
           ) : (
             <>
               {isLoading && (
                 <div className="flex items-center flex-col">
-                  <BouncyLoader className="bg-black dark:bg-white"/>
+                  <BouncyLoader className="bg-black dark:bg-white" />
                   <br />
                   Please wait while we setup your page!
                 </div>

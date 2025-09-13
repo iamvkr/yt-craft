@@ -81,7 +81,7 @@ const SidebarEdit = () => {
   return (
     currentConfig &&
     currentChannelData && (
-      <div className="h-full px-2 flex flex-col gap-y-2 overflow-y-auto">
+      <div className="h-full w-full px-2 flex flex-col gap-y-2 overflow-y-auto">
         <Accordion
           type="single"
           collapsible
